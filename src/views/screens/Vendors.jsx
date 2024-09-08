@@ -140,7 +140,7 @@ export default function Vendors() {
               </tr>
             </thead>
             <tbody>
-              {vendors.map(
+              {vendors ? vendors.map(
                 ({ ID, Img, Name, Email }, index) => {
                   const isLast = index === vendors.length - 1;
                   const classes = isLast
@@ -194,7 +194,12 @@ export default function Vendors() {
                     </tr>
                   );
                 }
-              )}
+              ) : <tr>
+                <td>
+
+                there is no vendors
+                </td>
+                </tr>}
             </tbody>
           </table>
         </CardBody>

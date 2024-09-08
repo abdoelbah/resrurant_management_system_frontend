@@ -12,7 +12,7 @@ function Dashboard() {
     <div className="flex flex-row">
       <SideBar />
       <div className=" w-full">
-        <div className=''>
+        <div className='flex flex-col justify-between'>
           <header className='mb-32'>
             <Header />
           </header>
@@ -20,11 +20,11 @@ function Dashboard() {
             {/* Define routes within the dashboard */}
             <Route path="/" element={<Home />} />
             <Route path="/vendors" element={<Vendors />} />
-            <Route path="/vendors/preview/:ID" element={<PreviewVendor/>} />
+            <Route path="/vendors/preview/:ID" element={<PreviewVendor />} />
 
           </Routes>
 
-      <Footer />
+          <Footer />
         </div>
       </div>
     </div>

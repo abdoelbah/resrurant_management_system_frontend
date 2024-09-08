@@ -38,7 +38,6 @@ function Home() {
   return (
     <>
 <div className='w-full'>
-  {vendorsCount}
 <BarChart vendors={vendorsCount} users={users} items={0}/>
 
 </div>

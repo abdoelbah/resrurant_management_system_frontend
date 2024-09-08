@@ -1,4 +1,4 @@
-import  { useState } from "react";
+import { useState } from "react";
 import {
   Card,
   Input,
@@ -11,7 +11,7 @@ import { useSetRecoilState } from "recoil";
 import { useNavigate } from "react-router-dom";
 import { userState } from "../../atoms/userAtom";
 import axios from "axios";
-import FoodImage from '../../assets/food_1.jpg';
+import FoodImage from "../../assets/food_1.jpg";
 
 const API_URL = import.meta.env.VITE_URL;
 
@@ -24,46 +24,69 @@ function Login() {
   // Handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
+    // Validation
+    if (!email || !password) {
+      alert("Please fill in all fields.");
+      return;
+    }
+
+    // Check if email contains '@'
+    if (!email.includes("@")) {
+      alert("Please enter a valid email address with '@'.");
+      return;
+    }
+
+    // Check for spaces in email or password
+    if (email.includes(" ") || password.includes(" ")) {
+      alert("Email and password cannot contain spaces.");
+      return;
+    }
+
+    // Validate password length (must be at least 8 characters)
+    if (password.length < 8) {
+      alert("Password must be at least 8 characters long.");
+      return;
+    }
+
     try {
-      const response = await axios.post(`${API_URL}/admin/login`, {email, password}, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      });
-      
+      const response = await axios.post(
+        `${API_URL}/admin/login`,
+        { email, password },
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
+      console.log("Full response", response);
+
       if (response.status === 200) {
         const userData = response.data;
         console.log("Login Successful:", userData);
-        setUser(userData);  // Set user in Recoil state
-        localStorage.setItem("user", JSON.stringify(userData));  // Store user in local storage
-        
+        setUser(userData); // Set user in Recoil state
+        localStorage.setItem("user", JSON.stringify(userData)); // Store user in local storage
+
         // Redirect to dashboard
-        navigate('/dashboard');
+        navigate("/dashboard");
       }
     } catch (error) {
       // Extract the error message from the Axios error response
-      const errorMessage = error.response && error.response.data
-        ? error.response.data.message
-        : "An error occurred during login";
+      const errorMessage =
+        error.response && error.response.data
+          ? error.response.data.massage // Notice "massage" as per the backend code
+          : "An error occurred during login";
 
       // Display the error message in an alert
       alert(`Login failed: ${errorMessage}`);
     }
   };
 
-  // Use useEffect to navigate when the user state updates in Recoil
- 
-
   return (
     <div className="flex flex-col lg:flex-row-reverse h-screen">
       {/* Image Section */}
       <div className="h-64 lg:h-auto w-full lg:w-2/5">
-        <img
-          className="w-full h-full object-cover"
-          src={FoodImage}
-          alt="Food"
-        />
+        <img className="w-full h-full object-cover" src={FoodImage} alt="Food" />
       </div>
 
       {/* Card Section */}
